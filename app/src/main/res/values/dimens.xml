@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_title">17sp</dimen>
+    <dimen name="movie_title">19sp</dimen>
+    <dimen name="movie_release_year">31sp</dimen>
+    <dimen name="movie_average_vote">13sp</dimen>
+    <dimen name="movie_overview">14sp</dimen>
+    <dimen name="mark_movie">14sp</dimen>
+    <dimen name="movie_type_screen_title">17sp</dimen>
+    <dimen name="trailer_name">13sp</dimen>
+    <dimen name="trailers_title">19sp</dimen>
+    <dimen name="review_author">16sp</dimen>
+    <dimen name="review_content">14sp</dimen>
+    <integer name="span_count">2</integer>
+</resources>

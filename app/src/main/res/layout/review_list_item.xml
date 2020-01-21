@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/review_author"
+        android:fontFamily="sans-serif-light"
+        android:padding="8dp"
+        tools:text="Author"/>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/review_content"
+        android:fontFamily="sans-serif"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:padding="8dp"
+        tools:text="Despite some utterly absurd diversions (chase scene! horror scene! shoot-out scene!), this is a quality science-fiction narrative, suggesting the answers we seek in the stars are actually found within"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"/>
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="pop_movies">Pop Movies</string>
+    <string name="top_movies">Top Movies</string>
+    <string name="favorite_movies">Favorite Movies</string>
+    <string name="action_sort_popular">Popular</string>
+    <string name="action_sort_top_rated">Top rated</string>
+    <string name="error_message">Something went wrong! Please, try again in a moment.</string>
+    <string name="movie_details">Movie Detail</string>
+    <string name="trailers">Trailers:</string>
+    <string name="reviews">Reviews:</string>
+    <string name="mark_movie">MARK AS FAVORITE</string>
+    <string name="unmark_movie">UNMARK MOVIE</string>
+    <string name="action_sort_favorites">Favorites</string>
+</resources>
