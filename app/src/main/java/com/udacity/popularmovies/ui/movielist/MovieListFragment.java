@@ -143,6 +143,9 @@ public class MovieListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (adapter == null)
+            return super.onOptionsItemSelected(item);
+
         switch (item.getItemId()) {
             case R.id.popular:
                 adapter.clear();
@@ -158,9 +161,10 @@ public class MovieListFragment extends Fragment {
                 adapter.clear();
                 updateMovies(fav_movies, Type.FAVORITE);
                 return true;
-        }
 
-        return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void updateMovies(String msg, Type type) {

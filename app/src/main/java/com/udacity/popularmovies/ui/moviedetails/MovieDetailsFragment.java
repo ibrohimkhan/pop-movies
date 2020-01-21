@@ -153,10 +153,10 @@ public class MovieDetailsFragment extends Fragment {
 
         viewModel.selectedTrailer.observe(this, videoEvent -> {
             if (videoEvent.getIfNotHandled() != null) {
-                Uri uri = Uri.parse("https://www.youtube.com/watch?v=" + videoEvent.peek().key);
+                Uri uri = Uri.parse(BuildConfig.YOUTUBE_URL + videoEvent.peek().key);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                Intent chooser = Intent.createChooser(intent, "Open With");
+                Intent chooser = Intent.createChooser(intent, getString(R.string.open_with));
 
                 if (getActivity() != null && intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivity(chooser);
@@ -183,7 +183,7 @@ public class MovieDetailsFragment extends Fragment {
                 Uri uri = Uri.parse(reviewEvent.peek().url);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                Intent chooser = Intent.createChooser(intent, "Open With");
+                Intent chooser = Intent.createChooser(intent, getString(R.string.open_with));
 
                 if (getActivity() != null && intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivity(chooser);
@@ -193,22 +193,22 @@ public class MovieDetailsFragment extends Fragment {
 
         viewModel.networkingError.observe(this, error -> {
             if (error.getIfNotHandled() != null && error.peek())
-                Toast.makeText(getContext(), "Networking Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
         });
 
         viewModel.databaseError.observe(this, error -> {
             if (error.getIfNotHandled() != null && error.peek())
-                Toast.makeText(getContext(), "Database Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.db_error), Toast.LENGTH_SHORT).show();
         });
 
         viewModel.isSaved.observe(this, isSaved -> {
             if (isSaved.getIfNotHandled() != null && isSaved.peek())
-                Toast.makeText(getContext(), "Movie is saved into database!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.saved_in_db), Toast.LENGTH_SHORT).show();
         });
 
         viewModel.isDeleted.observe(this, isDeleted -> {
             if (isDeleted.getIfNotHandled() != null && isDeleted.peek()) {
-                Toast.makeText(getContext(), "Movie is removed from database!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.removed_from_db), Toast.LENGTH_SHORT).show();
                 sharedViewModel.updateUI(true);
                 getActivity().onBackPressed();
             }

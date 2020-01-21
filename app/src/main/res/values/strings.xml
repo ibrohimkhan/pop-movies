@@ -12,4 +12,9 @@
     <string name="mark_movie">MARK AS FAVORITE</string>
     <string name="unmark_movie">UNMARK MOVIE</string>
     <string name="action_sort_favorites">Favorites</string>
+    <string name="open_with">Open With</string>
+    <string name="network_error">Networking Error</string>
+    <string name="db_error">Database Error</string>
+    <string name="saved_in_db">Movie is saved into database</string>
+    <string name="removed_from_db">Movie is removed from database!</string>
 </resources>

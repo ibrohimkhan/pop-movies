@@ -14,8 +14,8 @@ android {
         debug {
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
             buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w185/\"")
-            buildConfigField("String", "API_KEY", "\"4fd831cf2277e43c905286e5545b578f\"")
-            //buildConfigField("String", "API_KEY", "\"YOUR_API_KEY\"")
+            buildConfigField("String", "YOUTUBE_URL", "\"https://www.youtube.com/watch?v=\"")
+            buildConfigField("String", "API_KEY", "\"YOUR_API_KEY\"")
         }
         release {
             minifyEnabled true
@@ -23,6 +23,7 @@ android {
 
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
             buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w185/\"")
+            buildConfigField("String", "YOUTUBE_URL", "\"https://www.youtube.com/watch?v=\"")
             buildConfigField("String", "API_KEY", "\"YOUR_API_KEY\"")
         }
     }
