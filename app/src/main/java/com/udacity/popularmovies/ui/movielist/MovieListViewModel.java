@@ -10,7 +10,7 @@ import com.udacity.popularmovies.data.model.Movie;
 import com.udacity.popularmovies.data.remote.response.MovieResponse;
 import com.udacity.popularmovies.data.repository.MovieRepository;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -121,7 +121,11 @@ public class MovieListViewModel extends ViewModel {
     }
 
     private void selectQueryResult(List<MovieEntity> movieEntities) {
-        if (movieEntities == null || movieEntities.isEmpty()) return;
+        if (movieEntities == null || movieEntities.isEmpty()) {
+            loading.postValue(false);
+            localMovies.postValue(Collections.EMPTY_LIST);
+            return;
+        }
 
         List<Movie> movies = movieEntities.stream()
                 .map(it -> {

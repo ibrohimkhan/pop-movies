@@ -116,23 +116,14 @@ public class Movie {
 
         Movie movie = (Movie) o;
 
-        if (Double.compare(movie.voteAverage, voteAverage) != 0) return false;
-        if (!originalTitle.equals(movie.originalTitle)) return false;
-        if (!overview.equals(movie.overview)) return false;
-        if (!releaseDate.equals(movie.releaseDate)) return false;
-        return posterPath.equals(movie.posterPath);
+        if (originalTitle.compareTo(movie.originalTitle) != 0) return false;
+        return overview.equals(movie.overview);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = originalTitle.hashCode();
+        int result = originalTitle.hashCode();
         result = 31 * result + overview.hashCode();
-        result = 31 * result + releaseDate.hashCode();
-        temp = Double.doubleToLongBits(voteAverage);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + posterPath.hashCode();
         return result;
     }
 }

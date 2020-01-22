@@ -137,6 +137,11 @@ public class MovieDetailsFragment extends Fragment {
                     .into(poster);
         });
 
+        viewModel.favoriteMovie.observe(this, result -> {
+            if (result == null || result.getIfNotHandled() == null) return;
+            favoriteMovie.setText(R.string.unmark_movie);
+        });
+
         viewModel.trailers.observe(this, data -> {
             if (data.getIfNotHandled() != null) {
                 List<Video> trailers = data.peek();
@@ -216,10 +221,15 @@ public class MovieDetailsFragment extends Fragment {
 
         if (favoriteMovie != null) {
             favoriteMovie.setOnClickListener(view1 -> {
-                if (favoriteMovie.getText().equals(getString(R.string.mark_movie)))
+
+                if (favoriteMovie.getText().equals(getString(R.string.mark_movie))) {
+                    favoriteMovie.setText(R.string.unmark_movie);
                     viewModel.saveMovie();
-                else if (favoriteMovie.getText().equals(getString(R.string.unmark_movie)))
+
+                } else if (favoriteMovie.getText().equals(getString(R.string.unmark_movie))) {
+                    favoriteMovie.setText(R.string.mark_movie);
                     viewModel.deleteMovie();
+                }
             });
         }
     }

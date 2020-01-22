@@ -16,7 +16,6 @@ import com.udacity.popularmovies.data.remote.response.VideoResponse;
 import com.udacity.popularmovies.data.repository.MovieRepository;
 import com.udacity.popularmovies.ui.movielist.Type;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class MovieDetailsViewModel extends ViewModel {
     private static final String TAG = MovieDetailsViewModel.class.getSimpleName();
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    MutableLiveData<Movie> movie = new MutableLiveData<>();
+    MutableLiveData<Event<Movie>> movie = new MutableLiveData<>();
     MutableLiveData<Event<List<Video>>> trailers = new MutableLiveData<>();
     MutableLiveData<Event<List<Review>>> reviews = new MutableLiveData<>();
 
@@ -42,7 +41,11 @@ public class MovieDetailsViewModel extends ViewModel {
     MutableLiveData<Event<Video>> selectedTrailer = new MutableLiveData<>();
     MutableLiveData<Event<Review>> selectedReview = new MutableLiveData<>();
 
-    public MovieDetailsViewModel() {}
+    MutableLiveData<Event<Movie>> favoriteMovie = new MutableLiveData<>();
+    private List<Movie> localMovies;
+
+    public MovieDetailsViewModel() {
+    }
 
     @Override
     protected void onCleared() {
@@ -61,13 +64,11 @@ public class MovieDetailsViewModel extends ViewModel {
     }
 
     public void receive(Movie movie) {
-        this.movie.setValue(movie);
-        loadTrailers(movie);
-        loadReviews(movie);
+        loadMovies(movie);
     }
 
     public void saveMovie() {
-        Movie myMovie = movie.getValue();
+        Movie myMovie = movie.getValue().peek();
         if (myMovie == null) return;
 
         if (trailers != null && trailers.getValue() != null) {
@@ -95,7 +96,7 @@ public class MovieDetailsViewModel extends ViewModel {
         if (movie.getValue() == null) return;
 
         disposable.add(
-                MovieRepository.delete(movie.getValue())
+                MovieRepository.delete(movie.getValue().peek())
                         .subscribeOn(Schedulers.io())
                         .subscribe(this::deleteQueryResult, this::handleDatabaseError)
         );
@@ -111,7 +112,7 @@ public class MovieDetailsViewModel extends ViewModel {
 
     private void loadReviews(Movie movie) {
         if (movie.getType() == Type.FAVORITE) {
-            reviews.setValue(new Event<>(movie.reviews));
+            reviews.postValue(new Event<>(movie.reviews));
 
         } else if (NetworkHelper.isOnline()) {
             disposable.add(
@@ -125,7 +126,7 @@ public class MovieDetailsViewModel extends ViewModel {
 
     private void loadTrailers(Movie movie) {
         if (movie.getType() == Type.FAVORITE) {
-            trailers.setValue(new Event<>(movie.trailers));
+            trailers.postValue(new Event<>(movie.trailers));
 
         } else if (NetworkHelper.isOnline()) {
             disposable.add(
@@ -161,5 +162,47 @@ public class MovieDetailsViewModel extends ViewModel {
             Log.e(TAG, throwable.getLocalizedMessage());
 
         databaseError.postValue(new Event<>(true));
+    }
+
+    private void loadMovies(Movie movie) {
+        disposable.add(
+                MovieRepository.selectAll()
+                        .subscribeOn(Schedulers.io())
+                        .doFinally(() ->
+                                {
+                                    this.movie.postValue(new Event<>(movie));
+                                    loadTrailers(movie);
+                                    loadReviews(movie);
+                                    check(movie);
+                                }
+                        )
+                        .subscribe(this::selectQueryResult, this::handleDatabaseError)
+        );
+    }
+
+    private void selectQueryResult(List<MovieEntity> entities) {
+        localMovies = entities.stream()
+                .map(it -> new Movie(
+                        it.originalTitle,
+                        it.releaseDate,
+                        it.overview,
+                        it.posterPath,
+                        it.voteAverage,
+                        it.trailers,
+                        it.reviews)
+                ).collect(Collectors.toList());
+    }
+
+    private void check(Movie movie) {
+        if (localMovies == null || !localMovies.contains(movie))
+            return;
+
+        Movie favorite = localMovies.stream()
+                .filter(it -> it.equals(movie))
+                .findAny()
+                .orElse(null);
+
+        if (favorite != null)
+            favoriteMovie.postValue(new Event<>(favorite));
     }
 }
